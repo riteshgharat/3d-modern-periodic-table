@@ -1,598 +1,227 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>3D Modern Periodic Table Using A-Frame</title>
-    <!--Scripts-->
-    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-    <script>
-      AFRAME.registerComponent("modify-renderer", {
-        init: function () {
-          const renderer = this.el.sceneEl.renderer;
-          if (renderer && renderer.useLegacyLights !== undefined) {
-            delete renderer.useLegacyLights;
-          }
-        },
-      });
 
-      AFRAME.registerComponent("element", {
-        schema: {
-          symbol: { type: "string", default: "" },
-          name: { type: "string", default: "" },
-          color: { type: "color", default: "#000" },
-        },
+<head>
+  <title>3D Modern Periodic Table Using A-Frame</title>
+  <!--Scripts-->
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <script>
+    AFRAME.registerComponent("modify-renderer", {
+      init: function() {
+        const renderer = this.el.sceneEl.renderer;
+        if (renderer && renderer.useLegacyLights !== undefined) {
+          delete renderer.useLegacyLights;
+        }
+      },
+    });
 
-        init: function () {
-          var data = this.data;
-          var el = this.el;
+    AFRAME.registerComponent("element", {
+      schema: {
+        symbol: { type: "string", default: "" },
+        name: { type: "string", default: "" },
+        color: { type: "color", default: "#000" },
+      },
 
-          el.setAttribute("geometry", {
-            primitive: "box",
-            width: 1,
-            height: 1,
-            depth: 1,
-          });
+      init: function() {
+        var data = this.data;
+        var el = this.el;
 
-          el.setAttribute("material", "color", data.color);
+        el.setAttribute("geometry", {
+          primitive: "box",
+          width: 1,
+          height: 1,
+          depth: 1,
+        });
 
-          // Text entity
-          const textEl = document.createElement("a-entity");
-          const textE2 = document.createElement("a-entity");
+        el.setAttribute("material", "color", data.color);
 
-          textEl.setAttribute("text", {
-            value: data.symbol,
-            align: "center",
-            width: 10,
-            color: "#000",
-            anchor: "center",
-            baseline: "center",
-          });
+        // Text entity
+        const textEl = document.createElement("a-entity");
+        const textE2 = document.createElement("a-entity");
 
-          textE2.setAttribute("text", {
-            value: data.name,
-            align: "center",
-            width: 3,
-            color: "#000",
-            anchor: "center",
-            baseline: "bottom",
-          });
+        textEl.setAttribute("text", {
+          value: data.symbol,
+          align: "center",
+          width: 10,
+          color: "#000",
+          anchor: "center",
+          baseline: "center",
+        });
 
-          // Position the text in the center of the box
-          textEl.setAttribute("position", "0 0 0.5");
-          textE2.setAttribute("position", "0 -0.4 0.5");
+        textE2.setAttribute("text", {
+          value: data.name,
+          align: "center",
+          width: 3,
+          color: "#000",
+          anchor: "center",
+          baseline: "bottom",
+        });
 
-          el.appendChild(textEl);
-          el.appendChild(textE2);
-        },
-      });
-    </script>
-  </head>
-  <body>
-    <a-scene>
-      <!--Background-->
-      <a-assets>
-        <img
-          id="groundTexture"
-          src="https://cdn.aframe.io/a-painter/images/floor.jpg"
-        />
-        <img id="skyTexture" src="./background.png" />
-      </a-assets>
+        // Position the text in the center of the box
+        textEl.setAttribute("position", "0 0 0.5");
+        textE2.setAttribute("position", "0 -0.4 0.5");
 
-      <a-cylinder
-        id="ground"
-        src="#groundTexture"
-        radius="30"
-        height="0.1"
-        position="0 -4 0"
-      ></a-cylinder>
-      <a-sky
-        id="background"
-        src="#skyTexture"
-        theta-length="90"
-        radius="30"
-        position="0 -4 0"
-      ></a-sky>
+        el.appendChild(textEl);
+        el.appendChild(textE2);
+      },
+    });
+  </script>
+</head>
 
-      <!--Camera-->
-      <a-entity position="0 0 10">
-        <a-camera></a-camera>
-      </a-entity>
+<body>
+  <a-scene>
+    <!--Background-->
+    <a-assets>
+      <img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg" />
+      <img id="skyTexture" src="./background.png" />
+    </a-assets>
 
-      <!-- Periodic Table -->
-      <a-entity position="-1 3 0">
-        <a-text
-          value="Modern Periodic Table"
-          position="-3 4 2"
-          color="#FFF"
-          width="12"
-        ></a-text>
+    <a-cylinder id="ground" src="#groundTexture" radius="30" height="0.1" position="0 -4 0"></a-cylinder>
+    <a-sky id="background" src="#skyTexture" theta-length="90" radius="30" position="0 -4 0"></a-sky>
 
-        <a-entity
-          element="symbol: H; name: Hydrogen; color: #FFFFFF"
-          position="-7 4 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: He; name: Helium; color: #D9FFFF"
-          position="10 4 0"
-        ></a-entity>
+    <!--Camera-->
+    <a-entity position="0 0 10">
+      <a-camera></a-camera>
+    </a-entity>
 
-        <!-- Second row -->
-        <a-entity
-          element="symbol: Li; name: Lithium; color: #CC80FF"
-          position="-7 3 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Be; name: Beryllium; color: #C2FF00"
-          position="-6 3 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: B; name: Boron; color: #FFB5B5"
-          position="5 3 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: C; name: Carbon; color: #909090"
-          position="6 3 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: N; name: Nitrogen; color: #3050F8"
-          position="7 3 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: O; name: Oxygen; color: #FF0D0D"
-          position="8 3 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: F; name: Fluorine; color: #90E050"
-          position="9 3 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Ne; name: Neon; color: #B3E3F5"
-          position="10 3 0"
-        ></a-entity>
+    <!-- Periodic Table -->
+    <a-entity position="-1 3 0">
+      <a-text value="Modern Periodic Table" position="-3 4 2" color="#FFF" width="12"></a-text>
 
-        <!-- Third row -->
-        <a-entity
-          element="symbol: Na; name: Sodium; color: #AB5CF2"
-          position="-7 2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Mg; name: Magnesium; color: #8AFF00"
-          position="-6 2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Al; name: Aluminum; color: #BFA6A6"
-          position="5 2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Si; name: Silicon; color: #F0C8A0"
-          position="6 2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: P; name: Phosphorus; color: #FF8000"
-          position="7 2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: S; name: Sulfur; color: #FFFF30"
-          position="8 2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Cl; name: Chlorine; color: #1FF01F"
-          position="9 2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Ar; name: Argon; color: #80D1E3"
-          position="10 2 0"
-        ></a-entity>
+      <a-entity element="symbol: H; name: Hydrogen; color: #FFFFFF" position="-7 4 0"></a-entity>
+      <a-entity element="symbol: He; name: Helium; color: #D9FFFF" position="10 4 0"></a-entity>
 
-        <!-- Fourth row -->
-        <a-entity
-          element="symbol: K; name: Potassium; color: #8F40D4"
-          position="-7 1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Ca; name: Calcium; color: #3DFF00"
-          position="-6 1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Sc; name: Scandium; color: #E6E6E6"
-          position="-5 1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Ti; name: Titanium; color: #BFC2C7"
-          position="-4 1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: V; name: Vanadium; color: #A6A6AB"
-          position="-3 1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Cr; name: Chromium; color: #8A99C7"
-          position="-2 1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Mn; name: Manganese; color: #9C7AC7"
-          position="-1 1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Fe; name: Iron; color: #E06633"
-          position="0 1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Co; name: Cobalt; color: #F090A0"
-          position="1 1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Ni; name: Nickel; color: #50D050"
-          position="2 1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Cu; name: Copper; color: #C88033"
-          position="3 1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Zn; name: Zinc; color: #7D80B0"
-          position="4 1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Ga; name: Gallium; color: #C28F8F"
-          position="5 1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Ge; name: Germanium; color: #668F8F"
-          position="6 1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: As; name: Arsenic; color: #BD80E3"
-          position="7 1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Se; name: Selenium; color: #FFA100"
-          position="8 1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Br; name: Bromine; color: #A62929"
-          position="9 1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Kr; name: Krypton; color: #5CB8D1"
-          position="10 1 0"
-        ></a-entity>
+      <!-- Second row -->
+      <a-entity element="symbol: Li; name: Lithium; color: #CC80FF" position="-7 3 0"></a-entity>
+      <a-entity element="symbol: Be; name: Beryllium; color: #C2FF00" position="-6 3 0"></a-entity>
+      <a-entity element="symbol: B; name: Boron; color: #FFB5B5" position="5 3 0"></a-entity>
+      <a-entity element="symbol: C; name: Carbon; color: #909090" position="6 3 0"></a-entity>
+      <a-entity element="symbol: N; name: Nitrogen; color: #3050F8" position="7 3 0"></a-entity>
+      <a-entity element="symbol: O; name: Oxygen; color: #FF0D0D" position="8 3 0"></a-entity>
+      <a-entity element="symbol: F; name: Fluorine; color: #90E050" position="9 3 0"></a-entity>
+      <a-entity element="symbol: Ne; name: Neon; color: #B3E3F5" position="10 3 0"></a-entity>
 
-        <!-- Fifth row -->
-        <a-entity
-          element="symbol: Rb; name: Rubidium; color: #702EB0"
-          position="-7 0 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Sr; name: Strontium; color: #00FF00"
-          position="-6 0 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Y; name: Yttrium; color: #94FFFF"
-          position="-5 0 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Zr; name: Zirconium; color: #94E0E0"
-          position="-4 0 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Nb; name: Niobium; color: #73C2C9"
-          position="-3 0 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Mo; name: Molybdenum; color: #54B5B5"
-          position="-2 0 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Tc; name: Technetium; color: #3B9E9E"
-          position="-1 0 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Ru; name: Ruthenium; color: #248F8F"
-          position="0 0 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Rh; name: Rhodium; color: #0A7D8C"
-          position="1 0 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Pd; name: Palladium; color: #006985"
-          position="2 0 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Ag; name: Silver; color: #C0C0C0"
-          position="3 0 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Cd; name: Cadmium; color: #FFD98F"
-          position="4 0 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: In; name: Indium; color: #A67573"
-          position="5 0 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Sn; name: Tin; color: #668080"
-          position="6 0 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Sb; name: Antimony; color: #9E63B5"
-          position="7 0 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Te; name: Tellurium; color: #D47A00"
-          position="8 0 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: I; name: Iodine; color: #940094"
-          position="9 0 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Xe; name: Xenon; color: #429EB0"
-          position="10 0 0"
-        ></a-entity>
+      <!-- Third row -->
+      <a-entity element="symbol: Na; name: Sodium; color: #AB5CF2" position="-7 2 0"></a-entity>
+      <a-entity element="symbol: Mg; name: Magnesium; color: #8AFF00" position="-6 2 0"></a-entity>
+      <a-entity element="symbol: Al; name: Aluminum; color: #BFA6A6" position="5 2 0"></a-entity>
+      <a-entity element="symbol: Si; name: Silicon; color: #F0C8A0" position="6 2 0"></a-entity>
+      <a-entity element="symbol: P; name: Phosphorus; color: #FF8000" position="7 2 0"></a-entity>
+      <a-entity element="symbol: S; name: Sulfur; color: #FFFF30" position="8 2 0"></a-entity>
+      <a-entity element="symbol: Cl; name: Chlorine; color: #1FF01F" position="9 2 0"></a-entity>
+      <a-entity element="symbol: Ar; name: Argon; color: #80D1E3" position="10 2 0"></a-entity>
 
-        <!-- Sixth row -->
-        <a-entity
-          element="symbol: Cs; name: Cesium; color: #57178F"
-          position="-7 -1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Ba; name: Barium; color: #00C900"
-          position="-6 -1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: La; name: Lanthanum; color: #70D4FF"
-          position="-5 -1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Hf; name: Hafnium; color: #4DC2FF"
-          position="-4 -1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Ta; name: Tantalum; color: #4DA6FF"
-          position="-3 -1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: W; name: Tungsten; color: #2194D6"
-          position="-2 -1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Re; name: Rhenium; color: #267DAB"
-          position="-1 -1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Os; name: Osmium; color: #266696"
-          position="0 -1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Ir; name: Iridium; color: #175487"
-          position="1 -1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Pt; name: Platinum; color: #D0D0E0"
-          position="2 -1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Au; name: Gold; color: #FFD123"
-          position="3 -1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Hg; name: Mercury; color: #B8B8D0"
-          position="4 -1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Tl; name: Thallium; color: #A6544D"
-          position="5 -1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Pb; name: Lead; color: #575961"
-          position="6 -1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Bi; name: Bismuth; color: #9E4FB5"
-          position="7 -1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Po; name: Polonium; color: #AB5C00"
-          position="8 -1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: At; name: Astatine; color: #754F45"
-          position="9 -1 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Rn; name: Radon; color: #428296"
-          position="10 -1 0"
-        ></a-entity>
+      <!-- Fourth row -->
+      <a-entity element="symbol: K; name: Potassium; color: #8F40D4" position="-7 1 0"></a-entity>
+      <a-entity element="symbol: Ca; name: Calcium; color: #3DFF00" position="-6 1 0"></a-entity>
+      <a-entity element="symbol: Sc; name: Scandium; color: #E6E6E6" position="-5 1 0"></a-entity>
+      <a-entity element="symbol: Ti; name: Titanium; color: #BFC2C7" position="-4 1 0"></a-entity>
+      <a-entity element="symbol: V; name: Vanadium; color: #A6A6AB" position="-3 1 0"></a-entity>
+      <a-entity element="symbol: Cr; name: Chromium; color: #8A99C7" position="-2 1 0"></a-entity>
+      <a-entity element="symbol: Mn; name: Manganese; color: #9C7AC7" position="-1 1 0"></a-entity>
+      <a-entity element="symbol: Fe; name: Iron; color: #E06633" position="0 1 0"></a-entity>
+      <a-entity element="symbol: Co; name: Cobalt; color: #F090A0" position="1 1 0"></a-entity>
+      <a-entity element="symbol: Ni; name: Nickel; color: #50D050" position="2 1 0"></a-entity>
+      <a-entity element="symbol: Cu; name: Copper; color: #C88033" position="3 1 0"></a-entity>
+      <a-entity element="symbol: Zn; name: Zinc; color: #7D80B0" position="4 1 0"></a-entity>
+      <a-entity element="symbol: Ga; name: Gallium; color: #C28F8F" position="5 1 0"></a-entity>
+      <a-entity element="symbol: Ge; name: Germanium; color: #668F8F" position="6 1 0"></a-entity>
+      <a-entity element="symbol: As; name: Arsenic; color: #BD80E3" position="7 1 0"></a-entity>
+      <a-entity element="symbol: Se; name: Selenium; color: #FFA100" position="8 1 0"></a-entity>
+      <a-entity element="symbol: Br; name: Bromine; color: #A62929" position="9 1 0"></a-entity>
+      <a-entity element="symbol: Kr; name: Krypton; color: #5CB8D1" position="10 1 0"></a-entity>
 
-        <!-- Seventh row -->
-        <a-entity
-          element="symbol: Fr; name: Francium; color: #420066"
-          position="-7 -2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Ra; name: Radium; color: #007D00"
-          position="-6 -2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Ac; name: Actinium; color: #70ABFA"
-          position="-5 -2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Rf; name: Rutherfordium; color: #CC0059"
-          position="-4 -2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Db; name: Dubnium; color: #D1004F"
-          position="-3 -2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Sg; name: Seaborgium; color: #D90045"
-          position="-2 -2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Bh; name: Bohrium; color: #E00038"
-          position="-1 -2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Hs; name: Hassium; color: #E6002E"
-          position="-0 -2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Mt; name: Meitnerium; color: #EB0026"
-          position="1 -2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Ds; name: Darmstadtium; color: #FF9933"
-          position="2 -2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Rg; name: Roentgenium; color: #FF9933"
-          position="3 -2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Cn; name: Copernicium; color: #FFFF99"
-          position="4 -2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Nh; name: Nihonium; color: #FFFF99"
-          position="5 -2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Fl; name: Flerovium; color: #FFFF99"
-          position="6 -2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Mc; name: Moscovium; color: #FFFF99"
-          position="7 -2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Lv; name: Livermorium; color: #FFFF99"
-          position="8 -2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Ts; name: Tennessine; color: #FFFF99"
-          position="9 -2 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Og; name: Oganesson; color: #FFFF99"
-          position="10 -2 0"
-        ></a-entity>
-        <!--Lanthanum Series-->
-        <a-entity
-          element="symbol: Ce; name: Cerium; color: #FFFFC7"
-          position="-4 -4 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Pr; name: Praseodymium; color: #D9FFC7"
-          position="-3 -4 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Nd; name: Neodymium; color: #C7FFC7"
-          position="-2 -4 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Pm; name: Promethium; color: #A3FFC7"
-          position="-1 -4 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Sm; name: Samarium; color: #8FFFC7"
-          position="0 -4 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Eu; name: Europium; color: #61FFC7"
-          position="1 -4 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Gd; name: Gadolinium; color: #45FFC7"
-          position="2 -4 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Tb; name: Terbium; color: #30FFC7"
-          position="3 -4 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Dy; name: Dysprosium; color: #1FFFC7"
-          position="4 -4 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Ho; name: Holmium; color: #00FF9C"
-          position="5 -4 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Er; name: Erbium; color: #00E675"
-          position="6 -4 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Tm; name: Thulium; color: #00D452"
-          position="7 -4 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Yb; name: Ytterbium; color: #00BF38"
-          position="8 -4 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Lu; name: Lutetium; color: #00AB24"
-          position="9 -4 0"
-        ></a-entity>
-        <!--Actinium Series-->
-        <a-entity
-          element="symbol: Th; name: Thorium; color: #00BFFF"
-          position="-4 -5 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Pa; name: Protactinium; color: #00A1FF"
-          position="-3 -5 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: U; name: Uranium; color: #008FFF"
-          position="-2 -5 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Np; name: Neptunium; color: #0080FF"
-          position="-1 -5 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Pu; name: Plutonium; color: #006BFF"
-          position="0 -5 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Am; name: Americium; color: #545CF2"
-          position="1 -5 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Cm; name: Curium; color: #785CE3"
-          position="2 -5 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Bk; name: Berkelium; color: #8A4FE3"
-          position="3 -5 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Cf; name: Californium; color: #A136D4"
-          position="4 -5 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Es; name: Einsteinium; color: #B31FD4"
-          position="5 -5 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Fm; name: Fermium; color: #B31FBA"
-          position="6 -5 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Md; name: Mendelevium; color: #B30DA6"
-          position="7 -5 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: No; name: Nobelium; color: #BD0D87"
-          position="8 -5 0"
-        ></a-entity>
-        <a-entity
-          element="symbol: Lr; name: Lawrencium; color: #C70066"
-          position="9 -5 0"
-        ></a-entity>
-      </a-entity>
-    </a-scene>
-  </body>
+      <!-- Fifth row -->
+      <a-entity element="symbol: Rb; name: Rubidium; color: #702EB0" position="-7 0 0"></a-entity>
+      <a-entity element="symbol: Sr; name: Strontium; color: #00FF00" position="-6 0 0"></a-entity>
+      <a-entity element="symbol: Y; name: Yttrium; color: #94FFFF" position="-5 0 0"></a-entity>
+      <a-entity element="symbol: Zr; name: Zirconium; color: #94E0E0" position="-4 0 0"></a-entity>
+      <a-entity element="symbol: Nb; name: Niobium; color: #73C2C9" position="-3 0 0"></a-entity>
+      <a-entity element="symbol: Mo; name: Molybdenum; color: #54B5B5" position="-2 0 0"></a-entity>
+      <a-entity element="symbol: Tc; name: Technetium; color: #3B9E9E" position="-1 0 0"></a-entity>
+      <a-entity element="symbol: Ru; name: Ruthenium; color: #248F8F" position="0 0 0"></a-entity>
+      <a-entity element="symbol: Rh; name: Rhodium; color: #0A7D8C" position="1 0 0"></a-entity>
+      <a-entity element="symbol: Pd; name: Palladium; color: #006985" position="2 0 0"></a-entity>
+      <a-entity element="symbol: Ag; name: Silver; color: #C0C0C0" position="3 0 0"></a-entity>
+      <a-entity element="symbol: Cd; name: Cadmium; color: #FFD98F" position="4 0 0"></a-entity>
+      <a-entity element="symbol: In; name: Indium; color: #A67573" position="5 0 0"></a-entity>
+      <a-entity element="symbol: Sn; name: Tin; color: #668080" position="6 0 0"></a-entity>
+      <a-entity element="symbol: Sb; name: Antimony; color: #9E63B5" position="7 0 0"></a-entity>
+      <a-entity element="symbol: Te; name: Tellurium; color: #D47A00" position="8 0 0"></a-entity>
+      <a-entity element="symbol: I; name: Iodine; color: #940094" position="9 0 0"></a-entity>
+      <a-entity element="symbol: Xe; name: Xenon; color: #429EB0" position="10 0 0"></a-entity>
+
+      <!-- Sixth row -->
+      <a-entity element="symbol: Cs; name: Cesium; color: #57178F" position="-7 -1 0"></a-entity>
+      <a-entity element="symbol: Ba; name: Barium; color: #00C900" position="-6 -1 0"></a-entity>
+      <a-entity element="symbol: La; name: Lanthanum; color: #70D4FF" position="-5 -1 0"></a-entity>
+      <a-entity element="symbol: Hf; name: Hafnium; color: #4DC2FF" position="-4 -1 0"></a-entity>
+      <a-entity element="symbol: Ta; name: Tantalum; color: #4DA6FF" position="-3 -1 0"></a-entity>
+      <a-entity element="symbol: W; name: Tungsten; color: #2194D6" position="-2 -1 0"></a-entity>
+      <a-entity element="symbol: Re; name: Rhenium; color: #267DAB" position="-1 -1 0"></a-entity>
+      <a-entity element="symbol: Os; name: Osmium; color: #266696" position="0 -1 0"></a-entity>
+      <a-entity element="symbol: Ir; name: Iridium; color: #175487" position="1 -1 0"></a-entity>
+      <a-entity element="symbol: Pt; name: Platinum; color: #D0D0E0" position="2 -1 0"></a-entity>
+      <a-entity element="symbol: Au; name: Gold; color: #FFD123" position="3 -1 0"></a-entity>
+      <a-entity element="symbol: Hg; name: Mercury; color: #B8B8D0" position="4 -1 0"></a-entity>
+      <a-entity element="symbol: Tl; name: Thallium; color: #A6544D" position="5 -1 0"></a-entity>
+      <a-entity element="symbol: Pb; name: Lead; color: #575961" position="6 -1 0"></a-entity>
+      <a-entity element="symbol: Bi; name: Bismuth; color: #9E4FB5" position="7 -1 0"></a-entity>
+      <a-entity element="symbol: Po; name: Polonium; color: #AB5C00" position="8 -1 0"></a-entity>
+      <a-entity element="symbol: At; name: Astatine; color: #754F45" position="9 -1 0"></a-entity>
+      <a-entity element="symbol: Rn; name: Radon; color: #428296" position="10 -1 0"></a-entity>
+
+      <!-- Seventh row -->
+      <a-entity element="symbol: Fr; name: Francium; color: #420066" position="-7 -2 0"></a-entity>
+      <a-entity element="symbol: Ra; name: Radium; color: #007D00" position="-6 -2 0"></a-entity>
+      <a-entity element="symbol: Ac; name: Actinium; color: #70ABFA" position="-5 -2 0"></a-entity>
+      <a-entity element="symbol: Rf; name: Rutherfordium; color: #CC0059" position="-4 -2 0"></a-entity>
+      <a-entity element="symbol: Db; name: Dubnium; color: #D1004F" position="-3 -2 0"></a-entity>
+      <a-entity element="symbol: Sg; name: Seaborgium; color: #D90045" position="-2 -2 0"></a-entity>
+      <a-entity element="symbol: Bh; name: Bohrium; color: #E00038" position="-1 -2 0"></a-entity>
+      <a-entity element="symbol: Hs; name: Hassium; color: #E6002E" position="-0 -2 0"></a-entity>
+      <a-entity element="symbol: Mt; name: Meitnerium; color: #EB0026" position="1 -2 0"></a-entity>
+      <a-entity element="symbol: Ds; name: Darmstadtium; color: #FF9933" position="2 -2 0"></a-entity>
+      <a-entity element="symbol: Rg; name: Roentgenium; color: #FF9933" position="3 -2 0"></a-entity>
+      <a-entity element="symbol: Cn; name: Copernicium; color: #FFFF99" position="4 -2 0"></a-entity>
+      <a-entity element="symbol: Nh; name: Nihonium; color: #FFFF99" position="5 -2 0"></a-entity>
+      <a-entity element="symbol: Fl; name: Flerovium; color: #FFFF99" position="6 -2 0"></a-entity>
+      <a-entity element="symbol: Mc; name: Moscovium; color: #FFFF99" position="7 -2 0"></a-entity>
+      <a-entity element="symbol: Lv; name: Livermorium; color: #FFFF99" position="8 -2 0"></a-entity>
+      <a-entity element="symbol: Ts; name: Tennessine; color: #FFFF99" position="9 -2 0"></a-entity>
+      <a-entity element="symbol: Og; name: Oganesson; color: #FFFF99" position="10 -2 0"></a-entity>
+      <!--Lanthanum Series-->
+      <a-entity element="symbol: Ce; name: Cerium; color: #FFFFC7" position="-4 -4 0"></a-entity>
+      <a-entity element="symbol: Pr; name: Praseodymium; color: #D9FFC7" position="-3 -4 0"></a-entity>
+      <a-entity element="symbol: Nd; name: Neodymium; color: #C7FFC7" position="-2 -4 0"></a-entity>
+      <a-entity element="symbol: Pm; name: Promethium; color: #A3FFC7" position="-1 -4 0"></a-entity>
+      <a-entity element="symbol: Sm; name: Samarium; color: #8FFFC7" position="0 -4 0"></a-entity>
+      <a-entity element="symbol: Eu; name: Europium; color: #61FFC7" position="1 -4 0"></a-entity>
+      <a-entity element="symbol: Gd; name: Gadolinium; color: #45FFC7" position="2 -4 0"></a-entity>
+      <a-entity element="symbol: Tb; name: Terbium; color: #30FFC7" position="3 -4 0"></a-entity>
+      <a-entity element="symbol: Dy; name: Dysprosium; color: #1FFFC7" position="4 -4 0"></a-entity>
+      <a-entity element="symbol: Ho; name: Holmium; color: #00FF9C" position="5 -4 0"></a-entity>
+      <a-entity element="symbol: Er; name: Erbium; color: #00E675" position="6 -4 0"></a-entity>
+      <a-entity element="symbol: Tm; name: Thulium; color: #00D452" position="7 -4 0"></a-entity>
+      <a-entity element="symbol: Yb; name: Ytterbium; color: #00BF38" position="8 -4 0"></a-entity>
+      <a-entity element="symbol: Lu; name: Lutetium; color: #00AB24" position="9 -4 0"></a-entity>
+      <!--Actinium Series-->
+      <a-entity element="symbol: Th; name: Thorium; color: #00BFFF" position="-4 -5 0"></a-entity>
+      <a-entity element="symbol: Pa; name: Protactinium; color: #00A1FF" position="-3 -5 0"></a-entity>
+      <a-entity element="symbol: U; name: Uranium; color: #008FFF" position="-2 -5 0"></a-entity>
+      <a-entity element="symbol: Np; name: Neptunium; color: #0080FF" position="-1 -5 0"></a-entity>
+      <a-entity element="symbol: Pu; name: Plutonium; color: #006BFF" position="0 -5 0"></a-entity>
+      <a-entity element="symbol: Am; name: Americium; color: #545CF2" position="1 -5 0"></a-entity>
+      <a-entity element="symbol: Cm; name: Curium; color: #785CE3" position="2 -5 0"></a-entity>
+      <a-entity element="symbol: Bk; name: Berkelium; color: #8A4FE3" position="3 -5 0"></a-entity>
+      <a-entity element="symbol: Cf; name: Californium; color: #A136D4" position="4 -5 0"></a-entity>
+      <a-entity element="symbol: Es; name: Einsteinium; color: #B31FD4" position="5 -5 0"></a-entity>
+      <a-entity element="symbol: Fm; name: Fermium; color: #B31FBA" position="6 -5 0"></a-entity>
+      <a-entity element="symbol: Md; name: Mendelevium; color: #B30DA6" position="7 -5 0"></a-entity>
+      <a-entity element="symbol: No; name: Nobelium; color: #BD0D87" position="8 -5 0"></a-entity>
+      <a-entity element="symbol: Lr; name: Lawrencium; color: #C70066" position="9 -5 0"></a-entity>
+    </a-entity>
+  </a-scene>
+</body>
+
 </html>
