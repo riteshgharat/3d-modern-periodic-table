@@ -4,6 +4,8 @@ This project presents a 3D interactive visualization of the modern periodic tabl
 
 - **Live** 🔗: [https://3dmpt.netlify.app](https://3dmpt.netlify.app)
 
+![Website Preview](SS.png)
+
 ## Features
 
 - **3D Visualization**: Elements of the periodic table are represented as 3D boxes with their symbols and names.
