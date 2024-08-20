@@ -4,7 +4,7 @@ This project presents a 3D interactive visualization of the modern periodic tabl
 
 - **Live** 🔗: [https://3dmpt.netlify.app](https://3dmpt.netlify.app)
 
-![Website Preview](SS.png)
+![Website Preview](https://raw.githubusercontent.com/riteshgharat/3d-modern-periodic-table/main/SS.png)
 
 ## Features
 
